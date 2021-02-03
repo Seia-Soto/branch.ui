@@ -11,6 +11,7 @@ import {
 import StyleProvider from './providers/Style'
 
 import MainPage from './pages/MainPage'
+import LoginPage from './pages/LoginPage'
 
 const App = props => {
   return (
@@ -19,6 +20,7 @@ const App = props => {
         <Router>
           <Switch>
             <Route exact path='/' component={MainPage} />
+            <Route exact path='/session' component={LoginPage} />
           </Switch>
         </Router>
       </StyleProvider>

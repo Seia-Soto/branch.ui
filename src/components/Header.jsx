@@ -7,6 +7,9 @@ import {
   ButtonGroup,
   Button
 } from '@chakra-ui/react'
+import {
+  Link as PageLink
+} from 'react-router-dom'
 
 import { profile } from '../config'
 
@@ -18,13 +21,13 @@ const Header = props => {
       <Flex
         align='center'
       >
-        <Heading size='md'>
+        <Heading size='md' as={PageLink} to='/'>
           {profile.name}
         </Heading>
         <Spacer />
         <Box>
           <ButtonGroup size='sm'>
-            <Button>
+            <Button as={PageLink} to='/session'>
               시작하기
             </Button>
           </ButtonGroup>
