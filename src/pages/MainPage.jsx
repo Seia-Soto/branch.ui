@@ -1,15 +1,19 @@
 import * as React from 'react'
 import {
   Box,
-  Heading
+  Heading,
+  useColorMode
 } from '@chakra-ui/react'
 
 import Container from '../components/Container'
 import Header from '../components/Header'
 
 const MainPage = props => {
+  const { colorMode } = useColorMode()
+
   const backgroundImage = 'https://images.pexels.com/photos/327308/pexels-photo-327308.jpeg?auto=compress&cs=tinysrgb&dpr=2'
-  const backgroundFilter = 0.4
+  const filterColor = colorMode === 'light' ? '255,255,255' : '0,0,0'
+  const filterRate = 0.5
 
   return (
     <>
@@ -19,7 +23,7 @@ const MainPage = props => {
       <Box
         paddingTop='25px'
         paddingBottom='250px'
-        background={`linear-gradient(to right,rgba(0,0,0,${backgroundFilter}),rgba(0,0,0,${backgroundFilter})), url(${backgroundImage})`}
+        background={`linear-gradient(to right,rgba(${filterColor},${filterRate}),rgba(${filterColor},${filterRate})), url(${backgroundImage})`}
         backgroundSize='cover'
         backgroundPosition='center'
       >
