@@ -9,7 +9,7 @@ import Header from '../components/Header'
 
 const MainPage = props => {
   const backgroundImage = 'https://images.pexels.com/photos/327308/pexels-photo-327308.jpeg?auto=compress&cs=tinysrgb&dpr=2'
-  const backgroundFilter = 0.35
+  const backgroundFilter = 0.4
 
   return (
     <>
@@ -25,7 +25,7 @@ const MainPage = props => {
       >
         <Container>
           <Heading size='md'>
-            부담없이 깔끔한 글로 시작해보세요
+            부담없이 깔끔한 글로 시작하기
           </Heading>
           <Heading size='2xl'>
             Writing like Gothic.

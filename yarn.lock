@@ -2312,6 +2312,16 @@ read-pkg@^2.0.0:
     normalize-package-data "^2.3.2"
     path-type "^2.0.0"
 
+recoil-persist@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/recoil-persist/-/recoil-persist-2.0.0.tgz#0141c885e3c5ad6c459fa88abbbe81ab5616abdf"
+  integrity sha512-N/2JEcwKJtWIG5m2cYZauQRR0b3t23L6rjrl033GHMnTyxUcQBJTc3JZDauLObatH00ymRH8xSPjLbcjeljHUQ==
+
+recoil@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.1.2.tgz#844c612f535826dbe54c977761a67ded16f6d063"
+  integrity sha512-hIRrHlkmW4yITlBFprVYjVPhzPKYrJKoaDrrJtAtbkMeXfXaa/XE5OlyR10n+rNfnKWNToCKb3Z4fo86IGjkzg==
+
 regenerator-runtime@^0.13.4:
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
