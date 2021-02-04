@@ -11,7 +11,7 @@ import {
 import StyleProvider from './providers/Style'
 
 import MainPage from './pages/MainPage'
-import LoginPage from './pages/LoginPage'
+import SessionPage from './pages/SessionPage'
 
 const App = props => {
   return (
@@ -20,7 +20,7 @@ const App = props => {
         <Router>
           <Switch>
             <Route exact path='/' component={MainPage} />
-            <Route exact path='/session' component={LoginPage} />
+            <Route exact path='/session' component={SessionPage} />
           </Switch>
         </Router>
       </StyleProvider>

@@ -17,19 +17,17 @@ import {
 import {
   Link as PageLink
 } from 'react-router-dom'
-import fetch from 'unfetch'
 
 import Container from '../components/Container'
 import Header from '../components/Header'
 
 import * as atoms from '../atoms'
 
+import fetch from '../fns/fetch'
 import useInput from '../hooks/useInput'
 
-import { server } from '../config'
-
 const LoginPage = props => {
-  const [user, setUser] = useRecoilState(atoms.user)
+  const [, setUser] = useRecoilState(atoms.user)
   const [loading, setLoading] = React.useState(false)
   const [email, setEmail] = useInput('')
   const [password, setPassword] = useInput('')
@@ -39,7 +37,6 @@ const LoginPage = props => {
       (!loading) &&
       (email) &&
       (password)
-
     if (!shouldLogin) {
       return
     }
@@ -47,25 +44,29 @@ const LoginPage = props => {
     setLoading(true)
 
     try {
-      const response = await fetch(server.url + '/user/token', {
+      const loginRequest = await fetch('/user/token/assign', {
         method: 'POST',
-        body: JSON.stringify({
+        body: {
           email,
           password
-        })
+        }
       })
-      const body = await response.json()
+      const session = await loginRequest.json()
 
-      if (body.status) {
-        setUser({
-          token: body.result
-        })
-      } else {
-        alert('입력하신 이메일과 비밀번호가 올바르지 않거나 계정이 존재하지 않습니다.')
+      if (!session.status) {
+        return alert('입력하신 이메일과 비밀번호가 올바르지 않거나 계정이 존재하지 않습니다.')
       }
+
+      const profileRequest = await fetch('/user')
+      const profile = await profileRequest.json()
+
+      setUser(profile)
+
+      alert('로그인되었습니다!')
     } catch (error) {
       alert('현재 서버에 연결할 수 없거나 처리 중에 오류가 발생했습니다. 잠시 후에 다시시도해주세요.')
     } finally {
+      setUser(false)
       setLoading(false)
     }
   }
