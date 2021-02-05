@@ -1,9 +1,5 @@
 import * as React from 'react'
 import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
-import {
   Center,
   Heading,
   Stack,
@@ -25,87 +21,57 @@ import Container from '../components/Container'
 import Header from '../components/Header'
 
 import fetch from '../fns/fetch'
-
 import useInput from '../hooks/useInput'
 
-import { setUser } from '../actions/user'
-
-const SessionPage = props => {
+const RegisterationPage = props => {
   const history = useHistory()
   const toast = useToast()
-  const dispatch = useDispatch()
-  const user = useSelector(states => states.user)
   const [loading, setLoading] = React.useState(false)
+  const [username, setUsername] = useInput('')
   const [email, setEmail] = useInput('')
   const [password, setPassword] = useInput('')
+  const [passwordConfirm, setPasswordConfirm] = useInput('')
 
-  const findUser = React.useCallback(async () => {
-    if (!user || !user.key) {
-      return
-    }
-
-    const profile = await fetch('/user', { key: user.key })
-
-    if (profile.success) {
-      toast({
-        title: '계정 감지됨',
-        description: '이미 Branch에 로그인되어 있습니다. 새로 로그인하면 기존 계정에서 로그아웃됩니다.',
-        status: 'info',
-        isClosable: true
-      })
-    }
-  })
-  const authenticate = React.useCallback(async () => {
+  const authenticate = async () => {
     const shouldLogin =
       (!loading) &&
       (email) &&
-      (password)
+      (password) &&
+      (passwordConfirm)
     if (!shouldLogin) {
       return
     }
 
     setLoading(true)
 
-    const token = await fetch('/user/token', {
-      method: 'POST',
-      body: {
-        email,
-        password
-      },
-      toast
-    })
+    try {
+      const registeration = await fetch('/user', {
+        method: 'POST',
+        body: {
+          username,
+          email,
+          password
+        }
+      })
 
-    if (!token.success) {
-      setLoading(false)
+      if (!registeration.success) {
+        return alert('서버에서 계정 생성을 취소하였습니다. 모든 값들이 정확히 입력되었는지 확인 후에 다시시도해주세요. 이후에 지속적으로 같은 일이 발생한다면 페이지를 새로고침해보세요.')
+      }
 
-      return toast({
-        title: '로그인 실패',
-        description: '이메일과 비밀번호가 올바른지 확인해주신 후에 다시시도해주세요.',
+      alert('환영합니다! 새 Branch 계정이 준비되어 로그인하면 바로 사용하실 수 있습니다.')
+
+      history.push('/session')
+    } catch (error) {
+      toast({
+        title: '서버 연결 실패',
+        description: '현재 서버가 사용가능한 상태가 아닙니다. 잠시 후에 다시시도해주세요.',
         status: 'error',
         isClosable: true
       })
+    } finally {
+      setLoading(false)
     }
-
-    const profile = await fetch('/user', {
-      key: token.payload.result,
-      toast
-    })
-
-    dispatch(setUser({
-      key: token.payload.result,
-      profile: profile.payload.result
-    }))
-    toast({
-      title: '반가워요 👋',
-      description: user.profile.username + '님, Branch입니다!',
-      status: 'success',
-      isClosable: true
-    })
-
-    history.push('/')
-  })
-
-  React.useEffect(() => findUser(), [])
+  }
 
   return (
     <>
@@ -118,11 +84,17 @@ const SessionPage = props => {
           maxWidth='350px'
         >
           <Heading size='lg'>
-            로그인
+            계정 만들기
           </Heading>
           <Text>
-            로그인하여 Branch의 모든 기능을 사용하세요.
+            Branch 계정을 만들면 즉시 여러분의 생각을 퍼블리싱할 수 있습니다.
           </Text>
+          <Input
+            type='text'
+            placeholder='username'
+            value={username}
+            onChange={setUsername}
+          />
           <Input
             type='email'
             placeholder='user@domain.tld'
@@ -135,11 +107,17 @@ const SessionPage = props => {
             value={password}
             onChange={setPassword}
           />
+          <Input
+            type='password'
+            placeholder='password confirmation'
+            value={passwordConfirm}
+            onChange={setPasswordConfirm}
+          />
           <Flex>
             <Spacer />
             <ButtonGroup size='md'>
               <Button colorScheme='teal' isLoading={loading} onClick={authenticate}>
-                로그인
+                계정 만들기
               </Button>
             </ButtonGroup>
           </Flex>
@@ -147,8 +125,8 @@ const SessionPage = props => {
             spacing={1}
             shouldWrapChildren
           >
-            <Link as={PageLink} to='/session/create'>
-              계정 만들기
+            <Link as={PageLink} to='/session'>
+              로그인
             </Link>
             <Link as={PageLink} to='/session/lost-password'>
               비밀번호 찾기
@@ -160,4 +138,4 @@ const SessionPage = props => {
   )
 }
 
-export default SessionPage
+export default RegisterationPage
