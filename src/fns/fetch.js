@@ -2,7 +2,7 @@ import fetch from 'unfetch'
 
 import { server } from '../config'
 
-export default async (url, { toast, key, ...opts }) => {
+export default async (url, { toast, key, ...opts } = {}) => {
   opts = opts || {}
   opts.headers = opts.headers || {}
 
