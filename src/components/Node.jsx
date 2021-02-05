@@ -1,18 +1,28 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import {
+  Link as PageLink
+} from 'react-router-dom'
+import {
   Box,
   Heading,
   Text,
   Flex,
+  Link,
   Spacer
 } from '@chakra-ui/react'
 
-const TextNode = props => {
+const Node = props => {
   return (
     <Box>
       <Flex>
-        <Heading size='md'>{props.heading}</Heading>
+        <Heading size='md'>
+          {
+            props.link
+              ? <Link as={PageLink} to={props.link} color='blue.500'>{props.heading}</Link>
+              : props.heading
+          }
+        </Heading>
         <Spacer />
         <Box marginLeft='4px'>
           {
@@ -32,11 +42,12 @@ const TextNode = props => {
   )
 }
 
-TextNode.propTypes = {
+Node.propTypes = {
   heading: PropTypes.any,
   text: PropTypes.any,
   rightContext: PropTypes.any,
+  link: PropTypes.string,
   children: PropTypes.any
 }
 
-export default TextNode
+export default Node

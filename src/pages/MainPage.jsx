@@ -1,19 +1,50 @@
 import * as React from 'react'
 import {
+  useDispatch
+} from 'react-redux'
+import {
   Box,
   Heading,
+  Text,
+  Stack,
+  Spinner,
   useColorMode
 } from '@chakra-ui/react'
 
 import Container from '../components/Container'
 import Header from '../components/Header'
+import Node from '../components/Node'
+
+import fetch from '../fns/fetch'
+
+import { setPost } from '../actions/post'
 
 const MainPage = props => {
+  const dispatch = useDispatch()
   const { colorMode } = useColorMode()
+  const [recentPosts, setRecentPosts] = React.useState()
 
   const backgroundImage = 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?&auto=format&fit=crop&q=80'
   const filterColor = colorMode === 'light' ? '255,255,255' : '0,0,0'
   const filterRate = 0.65
+
+  React.useEffect(() => {
+    const getRecentPosts = async () => {
+      const posts = await fetch('/post?align=recent')
+
+      if (!posts.success) {
+        return
+      }
+
+      setRecentPosts(posts.payload.result)
+
+      for (let i = 0, l = posts.payload.result.length; i < l; i++) {
+        dispatch(setPost(posts.payload.result[i]))
+      }
+    }
+
+    getRecentPosts()
+  }, [dispatch])
 
   return (
     <>
@@ -36,6 +67,31 @@ const MainPage = props => {
         </Heading>
         </Container>
       </Box>
+      <Container paddingTop='25px'>
+        <Stack
+          spacing={4}
+        >
+          <Box>
+            <Heading size='lg'>
+              마지막 문장
+            </Heading>
+            <Text>
+              방금 전에 투고된 글들을 확인해보세요.
+            </Text>
+          </Box>
+          {
+            recentPosts && recentPosts.map((item, key) => (
+              <Node
+                key={key}
+                heading={item.title}
+              />
+            ))
+          }
+          {
+            !recentPosts && <Spinner />
+          }
+        </Stack>
+      </Container>
     </>
   )
 }

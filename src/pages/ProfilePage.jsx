@@ -16,7 +16,7 @@ import {
 
 import Container from '../components/Container'
 import Header from '../components/Header'
-import TextNode from '../components/TextNode'
+import Node from '../components/Node'
 
 import useColorModeSwitch from '../hooks/useColorModeSwitch'
 
@@ -62,7 +62,7 @@ const ProfilePage = props => {
         <Stack spacing={2}>
           <Heading size='lg'>화면</Heading>
           <Divider />
-          <TextNode
+          <Node
             heading='어두운 모드'
             text='어두운 모드를 사용하면 야간에도 글을 편하게 읽을 수 있도록 배경색이 어두워지고 본문의 색상이 반전됩니다.'
             rightContext={(
@@ -76,7 +76,7 @@ const ProfilePage = props => {
         <Stack spacing={2}>
           <Heading size='lg'>개인정보</Heading>
           <Divider />
-          <TextNode
+          <Node
             heading='모든 장치에서 로그아웃'
             text='다른 사람이 계정에 로그인했을 경우나 공공장소에서 로그아웃을 하지 않고 자리를 비웠을 경우를 대비하여 모든 장치에서 로그아웃할 수 있습니다.'
           >
@@ -88,7 +88,7 @@ const ProfilePage = props => {
             >
               모든 장치에서 로그아웃
             </Button>
-          </TextNode>
+          </Node>
         </Stack>
       </Container>
     </>
