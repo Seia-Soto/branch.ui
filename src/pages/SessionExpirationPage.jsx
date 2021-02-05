@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {
-  useDispatch,
   useSelector
 } from 'react-redux'
 import {
@@ -13,11 +12,9 @@ import {
   ButtonGroup,
   Button,
   Text,
-  Link,
   useToast
 } from '@chakra-ui/react'
 import {
-  Link as PageLink,
   useHistory
 } from 'react-router-dom'
 
@@ -28,21 +25,16 @@ import fetch from '../fns/fetch'
 
 import useInput from '../hooks/useInput'
 
-import { setUser } from '../actions/user'
-
-const SessionPage = props => {
+const SessionExpirationPage = props => {
   const history = useHistory()
   const toast = useToast()
-  const dispatch = useDispatch()
   const user = useSelector(states => states.user)
   const [loading, setLoading] = React.useState(false)
-  const [email, setEmail] = useInput('')
   const [password, setPassword] = useInput('')
 
   const authenticate = async () => {
     const shouldLogin =
       (!loading) &&
-      (email) &&
       (password)
     if (!shouldLogin) {
       return
@@ -51,9 +43,9 @@ const SessionPage = props => {
     setLoading(true)
 
     const token = await fetch('/user/token', {
-      method: 'POST',
+      method: 'DELETE',
       body: {
-        email,
+        email: user.profile.email,
         password
       },
       toast
@@ -61,55 +53,18 @@ const SessionPage = props => {
 
     if (!token.success) {
       setLoading(false)
+      setPassword('')
 
       return toast({
-        title: '로그인 실패',
+        title: '계정 인증 실패',
         description: '이메일과 비밀번호가 올바른지 확인해주신 후에 다시시도해주세요.',
         status: 'error',
         isClosable: true
       })
     }
 
-    const profile = await fetch('/user', {
-      key: token.payload.result,
-      toast
-    })
-
-    dispatch(setUser({
-      key: token.payload.result,
-      profile: profile.payload.result
-    }))
-    toast({
-      title: '반가워요 👋',
-      description: profile.payload.result.username + '님, Branch입니다!',
-      status: 'success',
-      isClosable: true
-    })
-    setLoading(false)
-
-    history.push('/profile')
+    history.push('/session/finish')
   }
-
-  React.useEffect(() => {
-    const findUser = async () => {
-      if (!user || !user.key) {
-        return
-      }
-
-      const profile = await fetch('/user', { key: user.key })
-
-      if (profile.success) {
-        toast({
-          title: '계정 감지됨',
-          description: '이미 Branch에 로그인되어 있습니다. 새로 로그인하면 기존 계정에서 로그아웃됩니다.',
-          status: 'info',
-          isClosable: true
-        })
-      }
-    }
-
-    findUser()
-  }, [])
 
   return (
     <>
@@ -122,17 +77,11 @@ const SessionPage = props => {
           maxWidth='350px'
         >
           <Heading size='lg'>
-            로그인
+            모든 세션 종료
           </Heading>
           <Text>
-            로그인하여 Branch의 모든 기능을 사용하세요.
+            모든 세션을 종료하려면 비밀번호를 한 번 더 입력하세요.
           </Text>
-          <Input
-            type='email'
-            placeholder='user@domain.tld'
-            value={email}
-            onChange={setEmail}
-          />
           <Input
             type='password'
             placeholder='password'
@@ -143,25 +92,14 @@ const SessionPage = props => {
             <Spacer />
             <ButtonGroup size='md'>
               <Button colorScheme='teal' isLoading={loading} onClick={authenticate}>
-                로그인
+                모든 세션 종료
               </Button>
             </ButtonGroup>
           </Flex>
-          <Stack
-            spacing={1}
-            shouldWrapChildren
-          >
-            <Link as={PageLink} to='/session/create'>
-              계정 만들기
-            </Link>
-            <Link as={PageLink} to='/session/lost-password'>
-              비밀번호 찾기
-            </Link>
-          </Stack>
         </Stack>
       </Center>
     </>
   )
 }
 
-export default SessionPage
+export default SessionExpirationPage

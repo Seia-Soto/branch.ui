@@ -6,7 +6,7 @@ const reducer = (state = initialStates, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case actions.SET_PROFILE: {
+    case actions.SET_USER: {
       return {
         ...state,
         ...payload

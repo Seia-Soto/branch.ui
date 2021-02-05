@@ -11,7 +11,7 @@ import Header from '../components/Header'
 const MainPage = props => {
   const { colorMode } = useColorMode()
 
-  const backgroundImage = 'https://images.pexels.com/photos/6333734/pexels-photo-6333734.jpeg?auto=compress&cs=tinysrgb&dpr=2'
+  const backgroundImage = 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?&auto=format&fit=crop&q=80'
   const filterColor = colorMode === 'light' ? '255,255,255' : '0,0,0'
   const filterRate = 0.65
 

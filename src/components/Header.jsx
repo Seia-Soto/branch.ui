@@ -27,8 +27,8 @@ const Header = props => {
         <Spacer />
         <Box>
           <ButtonGroup size='sm'>
-            <Button as={PageLink} to='/session'>
-              시작하기
+            <Button as={PageLink} to='/profile'>
+              대시보드
             </Button>
           </ButtonGroup>
         </Box>
