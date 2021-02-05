@@ -7,7 +7,8 @@ import rootReducer from '../reducers'
 const persistConfig = {
   key: '_branch.ui',
   whitelist: [
-    'user'
+    'user',
+    'post'
   ],
   storage
 }
@@ -15,13 +16,9 @@ const persistConfig = {
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
 const enhancedReducer = persistReducer(persistConfig, rootReducer)
 
-export default initialState => {
-  const store = createStore(
-    enhancedReducer,
-    initialState,
-    composeEnhancers()
-  )
-  const persistor = persistStore(store)
-
-  return { store, persistor }
-}
+export const store = createStore(
+  enhancedReducer,
+  {},
+  composeEnhancers()
+)
+export const persistor = persistStore(store)

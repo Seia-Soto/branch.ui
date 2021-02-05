@@ -20,6 +20,8 @@ import Node from '../components/Node'
 
 import useColorModeSwitch from '../hooks/useColorModeSwitch'
 
+import { profile as application } from '../config'
+
 const ProfilePage = props => {
   const { profile } = useSelector(states => states.user)
   const { colorMode } = useColorMode()
@@ -31,7 +33,7 @@ const ProfilePage = props => {
         <Header />
       </Container>
       <Box
-        background={colorMode === 'light' ? 'gray.200' : 'gray.600'}
+        background={colorMode === 'light' ? 'gray.200' : 'gray.700'}
         paddingTop='20px'
         paddingBottom='42px'
       >
@@ -43,14 +45,13 @@ const ProfilePage = props => {
               </Heading>
               <Heading size='xl'>
                 대시보드
-            </Heading>
+              </Heading>
             </Box>
             <Spacer />
             <ButtonGroup
               size='sm'
-              colorScheme='red'
             >
-              <Button as={PageLink} to='/session/finish'>
+              <Button as={PageLink} to='/session/finish' colorScheme='red'>
                 로그아웃
               </Button>
             </ButtonGroup>
@@ -59,6 +60,22 @@ const ProfilePage = props => {
       </Box>
       <Divider />
       <Container as={Stack} paddingTop='12px' spacing={8}>
+        <Stack spacing={2}>
+          <Heading size='lg'>{application.name}</Heading>
+          <Divider />
+          <Node
+            heading='새 글 투고하기'
+            rightContext={(
+              <Button
+                as={PageLink}
+                size='sm'
+                to='/post/create'
+              >
+                투고하기
+              </Button>
+            )}
+          />
+        </Stack>
         <Stack spacing={2}>
           <Heading size='lg'>화면</Heading>
           <Divider />

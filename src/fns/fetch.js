@@ -1,8 +1,10 @@
 import fetch from 'unfetch'
 
 import { server } from '../config'
+import { store } from '../store'
 
 export default async (url, { toast, key, ...opts } = {}) => {
+  key = key || store.getState().user.key
   opts = opts || {}
   opts.headers = opts.headers || {}
 

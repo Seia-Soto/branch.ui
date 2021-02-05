@@ -16,7 +16,7 @@ import { profile } from '../config'
 const Header = props => {
   return (
     <Box
-      padding='8px 0'
+      padding='4px 0'
     >
       <Flex
         align='center'
@@ -26,7 +26,7 @@ const Header = props => {
         </Heading>
         <Spacer />
         <Box>
-          <ButtonGroup size='sm'>
+          <ButtonGroup size='sm' variant='ghost'>
             <Button as={PageLink} to='/profile'>
               대시보드
             </Button>

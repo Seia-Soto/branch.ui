@@ -96,7 +96,7 @@ const SessionPage = props => {
         return
       }
 
-      const profile = await fetch('/user', { key: user.key })
+      const profile = await fetch('/user')
 
       if (profile.success) {
         toast({

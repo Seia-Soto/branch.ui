@@ -14,6 +14,8 @@ const reducer = (state = initialStates, action) => {
         randomId = -1
       }
 
+      payload.createdAt = Date.now()
+
       return {
         ...state,
         [randomId]: undefined,

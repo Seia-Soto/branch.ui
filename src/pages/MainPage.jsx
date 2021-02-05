@@ -16,8 +16,7 @@ import Header from '../components/Header'
 import Node from '../components/Node'
 
 import fetch from '../fns/fetch'
-
-import { setPost } from '../actions/post'
+import { getPost } from '../api'
 
 const MainPage = props => {
   const dispatch = useDispatch()
@@ -36,11 +35,18 @@ const MainPage = props => {
         return
       }
 
-      setRecentPosts(posts.payload.result)
+      const list = []
 
       for (let i = 0, l = posts.payload.result.length; i < l; i++) {
-        dispatch(setPost(posts.payload.result[i]))
+        const postId = posts.payload.result[i]
+        const post = await getPost(postId)
+
+        if (post) {
+          list.push(post)
+        }
       }
+
+      setRecentPosts(list)
     }
 
     getRecentPosts()
@@ -84,6 +90,7 @@ const MainPage = props => {
               <Node
                 key={key}
                 heading={item.title}
+                link={'/post/' + item.id}
               />
             ))
           }
