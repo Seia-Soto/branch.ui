@@ -1,4 +1,6 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
+const rollupPnPResolve = require('rollup-plugin-pnp-resolve')
+
 module.exports = {
   mount: {
     public: { url: '/', static: true },
@@ -13,13 +15,17 @@ module.exports = {
     /* Example: Bundle your final build: */
     // "bundle": true,
   },
-  packageOptions: {
-    /* ... */
-  },
   devOptions: {
     /* ... */
   },
   buildOptions: {
     /* ... */
+  },
+  packageOptions: {
+    rollup: {
+      plugins: [
+        rollupPnPResolve()
+      ]
+    }
   }
 }
